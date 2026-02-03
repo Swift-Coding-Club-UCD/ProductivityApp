@@ -7,20 +7,81 @@
 
 import SwiftUI
 
-struct TaskItem: Identifiable {
+struct TaskItem: Identifiable, Codable, Equatable {
     var id: UUID = UUID()
     var title: String
     var isDone: Bool = false
+    
+    init(id: UUID = UUID(), title: String, isDone: Bool = false) {
+            self.id = id
+            self.title = title
+            self.isDone = isDone
+    }
+}
+
+struct TaskStorage {
+    static let tasksKey = "daily_tasks"
+    static let dateKey = "daily_tasks_date"
+
+    static func todayString() -> String {
+        // "2026-02-02" style (stable)
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: Date())
+    }
+
+    static func loadTasksForToday() -> [TaskItem] {
+        let defaults = UserDefaults.standard
+        let savedDate = defaults.string(forKey: dateKey)
+        let today = todayString()
+
+        // New day? Reset.
+        guard savedDate == today else {
+            defaults.set(today, forKey: dateKey)
+            defaults.removeObject(forKey: tasksKey)
+            return []
+        }
+
+        // Same day: load tasks.
+        guard let data = defaults.data(forKey: tasksKey) else { return [] }
+
+        do {
+            return try JSONDecoder().decode([TaskItem].self, from: data)
+        } catch {
+            // If decoding fails, start fresh.
+            return []
+        }
+    }
+
+    static func save(tasks: [TaskItem]) {
+        let defaults = UserDefaults.standard
+        let today = todayString()
+        defaults.set(today, forKey: dateKey)
+
+        do {
+            let data = try JSONEncoder().encode(tasks)
+            defaults.set(data, forKey: tasksKey)
+        } catch {
+            // If encoding fails, don't crash—just skip saving.
+        }
+    }
 }
 
 
-struct DailyTaskView: View {
-    @State private var tasks: [TaskItem] = [
-        TaskItem(title: "Read ch 3"), // for testing
-        TaskItem(title: "workout")
-    ]
 
+struct DailyTaskView: View {
+    //@State private var tasks: [TaskItem] = [
+        //TaskItem(title: "Read ch 3"), // for testing
+        //TaskItem(title: "workout")
+    //]
+    
+    @State private var tasks: [TaskItem] = []
     @State private var newTaskTitle: String = ""
+    
+
     
     private var finishCount: Int {tasks.filter(\.isDone).count}
     
@@ -81,11 +142,21 @@ struct DailyTaskView: View {
                 .fill(Color.yellow.opacity(0.15))
         )
         .shadow(color: Color.black.opacity(0.10), radius: 18, x:0, y:10)
+        .padding()
+        
+        .onAppear {
+            tasks = TaskStorage.loadTasksForToday()
+        }
+        .onChange(of: tasks) { oldValue, newValue in
+            TaskStorage.save(tasks: newValue)
+        }
+
     }
     
     private func addTask() {
         let trimmed = newTaskTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
+
         tasks.append(TaskItem(title: trimmed))
         newTaskTitle = ""
     }
