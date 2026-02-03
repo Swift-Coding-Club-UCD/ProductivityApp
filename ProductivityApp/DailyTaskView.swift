@@ -86,7 +86,7 @@ struct DailyTaskView: View {
     private var finishCount: Int {tasks.filter(\.isDone).count}
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 20) {
             HStack(alignment: .firstTextBaseline) {
                 Text("Today's Tasks")
                     .font(.system(size:25, weight: .bold))
@@ -97,12 +97,12 @@ struct DailyTaskView: View {
                     .foregroundStyle(.secondary)
                     
             }
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 24) {
                 ForEach($tasks) { $task in
                     HStack(spacing: 16) {
                         CheckTask(isChecked: $task.isDone)
                         Text(task.title)
-                            .font(.system(size: 21, weight:.medium))
+                            .font(.system(size: 22, weight:.medium))
                     }
                 }
             }
