@@ -343,6 +343,50 @@ class AuthenticationManager: ObservableObject {
         let appleEmails = loadAppleEmails()
         return appleEmails.contains(email.lowercased())
     }
+    
+    // MARK: - Profile Updates
+
+    /// Update the current user's displayName
+    func updateDisplayName(_ newName: String) {
+        guard var user = currentUser else { return }
+        user.displayName = newName
+        saveUser(user)
+    }
+
+    /// Update the current user's photoURL
+    func updatePhotoURL(_ newURL: URL?) {
+        guard var user = currentUser else { return }
+        user.photoURL = newURL
+        saveUser(user)
+    }
+
+    /// Save a new profile photo image locally with a unique timestamped file name and update the user's photoURL.
+    /// This stores the image under Documents/users/{userId}/profile_yyyyMMddHHmmss.jpg and removes older profile_* images.
+    func updatePhoto(with image: UIImage) async {
+        guard let user = currentUser else { return }
+
+        do {
+            let timestamp = Int(Date().timeIntervalSince1970)
+            let fileName = "profile_\(timestamp).jpg"
+            let url = try saveProfileImageToDisk(image: image, userId: user.id, fileName: fileName)
+            try cleanupOldProfileImages(userId: user.id, keep: url)
+            updatePhotoURL(url)
+        } catch {
+            self.errorMessage = "Failed to save profile photo: \(error.localizedDescription)"
+        }
+    }
+
+    /// Remove the stored profile photo and clear the user's photoURL
+    func removePhoto() async {
+        guard let user = currentUser else { return }
+        do {
+            try deleteProfileImageFromDisk(userId: user.id)
+            updatePhotoURL(nil)
+        } catch {
+            // Even if deletion fails, clear the URL so UI reflects removal
+            updatePhotoURL(nil)
+        }
+    }
 
     // MARK: - Helpers
 
@@ -378,4 +422,55 @@ class AuthenticationManager: ObservableObject {
 
         return hashString
     }
+    
+    // MARK: - Local File Helpers (Profile Photo)
+
+    private func profileImageDirectory(for userId: String) throws -> URL {
+        let docs = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let dir = docs.appendingPathComponent("users").appendingPathComponent(userId)
+        if !FileManager.default.fileExists(atPath: dir.path) {
+            try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        }
+        return dir
+    }
+    private func profileImageURL(for userId: String) throws -> URL {
+        let dir = try profileImageDirectory(for: userId)
+        return dir.appendingPathComponent("profile.jpg")
+    }
+
+    private func saveProfileImageToDisk(image: UIImage, userId: String, fileName: String? = nil) throws -> URL {
+        guard let data = image.jpegData(compressionQuality: 0.9) ?? image.pngData() else {
+            throw NSError(domain: "AuthenticationManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unable to encode image data"]) 
+        }
+        let dir = try profileImageDirectory(for: userId)
+        let url: URL
+        if let fileName = fileName {
+            url = dir.appendingPathComponent(fileName)
+        } else {
+            url = try profileImageURL(for: userId)
+        }
+        try data.write(to: url, options: .atomic)
+        return url
+    }
+
+    private func deleteProfileImageFromDisk(userId: String) throws {
+        let url = try profileImageURL(for: userId)
+        if FileManager.default.fileExists(atPath: url.path) {
+            try FileManager.default.removeItem(at: url)
+        }
+    }
+    
+    /// Remove older profile images in the user's directory, keeping the specified URL.
+    private func cleanupOldProfileImages(userId: String, keep keepURL: URL) throws {
+        let dir = try profileImageDirectory(for: userId)
+        let contents = try FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
+        for fileURL in contents {
+            let name = fileURL.lastPathComponent
+            // Remove any profile_*.jpg that is not the keepURL
+            if name.hasPrefix("profile_") && name.hasSuffix(".jpg") && fileURL != keepURL {
+                try? FileManager.default.removeItem(at: fileURL)
+            }
+        }
+    }
 }
+

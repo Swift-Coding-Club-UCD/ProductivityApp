@@ -14,7 +14,10 @@
 		84FEE9ED2F3AA47900DBB49F /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F314632F286CC200D83064 /* AuthenticationView.swift */; };
 		84FEE9EE2F3AA47D00DBB49F /* EmailSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F314642F286CC600D83064 /* EmailSignInView.swift */; };
 		84FEE9EF2F3AA48200DBB49F /* EmailSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F314652F286CC800D83064 /* EmailSignUpView.swift */; };
-		84FEE9F02F3AA48600DBB49F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F314662F286CCB00D83064 /* HomeView.swift */; };
+		84FEE9F02F3AA48600DBB49F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F314662F286CCB00D83064 /* ProfileView.swift */; };
+		84FEE9FA2F3AB0CD00DBB49F /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEE9F92F3AB0CD00DBB49F /* EditProfileView.swift */; };
+		84FEEA0E2F3AD06F00DBB49F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA0D2F3AD06F00DBB49F /* MainTabView.swift */; };
+		84FEEA102F3AD18400DBB49F /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA0F2F3AD18400DBB49F /* AuthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +27,10 @@
 		84F314632F286CC200D83064 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		84F314642F286CC600D83064 /* EmailSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInView.swift; sourceTree = "<group>"; };
 		84F314652F286CC800D83064 /* EmailSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpView.swift; sourceTree = "<group>"; };
-		84F314662F286CCB00D83064 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		84F314662F286CCB00D83064 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		84FEE9F92F3AB0CD00DBB49F /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		84FEEA0D2F3AD06F00DBB49F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		84FEEA0F2F3AD18400DBB49F /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -92,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				84F314602F286C6800D83064 /* AuthenticationManager.swift */,
+				84FEE9F92F3AB0CD00DBB49F /* EditProfileView.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -102,7 +109,9 @@
 				84F314632F286CC200D83064 /* AuthenticationView.swift */,
 				84F314642F286CC600D83064 /* EmailSignInView.swift */,
 				84F314652F286CC800D83064 /* EmailSignUpView.swift */,
-				84F314662F286CCB00D83064 /* HomeView.swift */,
+				84F314662F286CCB00D83064 /* ProfileView.swift */,
+				84FEEA0D2F3AD06F00DBB49F /* MainTabView.swift */,
+				84FEEA0F2F3AD18400DBB49F /* AuthManager.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -186,12 +195,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FEE9FA2F3AB0CD00DBB49F /* EditProfileView.swift in Sources */,
 				84FEE9EC2F3AA46C00DBB49F /* User.swift in Sources */,
 				84FEE9EB2F3AA45600DBB49F /* AuthenticationManager.swift in Sources */,
 				84FEE9EE2F3AA47D00DBB49F /* EmailSignInView.swift in Sources */,
-				84FEE9F02F3AA48600DBB49F /* HomeView.swift in Sources */,
+				84FEE9F02F3AA48600DBB49F /* ProfileView.swift in Sources */,
 				84FEE9ED2F3AA47900DBB49F /* AuthenticationView.swift in Sources */,
+				84FEEA102F3AD18400DBB49F /* AuthManager.swift in Sources */,
 				84FEE9EF2F3AA48200DBB49F /* EmailSignUpView.swift in Sources */,
+				84FEEA0E2F3AD06F00DBB49F /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
