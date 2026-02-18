@@ -19,7 +19,8 @@ struct HomeView: View {
                     HomeHeaderView()
                         .padding(.horizontal)
 
-                    // ADD STREAK
+                    StreakView()
+                        .padding(.horizontal)
 
                     TaskCardView(store: store)
                         .padding(.horizontal)
