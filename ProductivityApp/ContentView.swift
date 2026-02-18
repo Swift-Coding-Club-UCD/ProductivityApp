@@ -12,7 +12,6 @@ struct ContentView: View {
     @EnvironmentObject var authManager: AuthenticationManager
 
     var body: some View {
-<<<<<<< HEAD
         Group {
             // 2. 判斷目前是否有使用者登入
             if authManager.currentUser != nil {
@@ -22,24 +21,6 @@ struct ContentView: View {
                 // 未登入：前往登入畫面
                 AuthenticationView()
             }
-=======
-        TabView {
-            ViewA()
-                .tabItem() {
-                    Image(systemName: "house")
-                    Text("Home")
-                }
-            ViewB()
-                .tabItem() {
-                    Image(systemName: "person.2.fill")
-                    Text("Friends")
-                }
-            ViewC()
-                .tabItem() {
-                    Image(systemName: "slider.horizontal.3")
-                    Text("Settings")
-                }
->>>>>>> main
         }
     }
 }
