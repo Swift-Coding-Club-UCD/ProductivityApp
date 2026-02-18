@@ -2,7 +2,6 @@
 //  TaskItem.swift
 //  ProductivityApp
 //
-//  Created by Ava Kaplin on 2/18/26.
 //
 
 import Foundation

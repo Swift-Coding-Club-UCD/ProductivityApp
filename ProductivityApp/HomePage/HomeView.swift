@@ -2,7 +2,6 @@
 //  HomeView.swift
 //  ProductivityApp
 //
-//  Created by Ava Kaplin on 2/18/26.
 //
 
 import SwiftUI
@@ -25,7 +24,8 @@ struct HomeView: View {
                     TaskCardView(store: store)
                         .padding(.horizontal)
 
-                    // ADD UPCOMING DEADLINE
+                    DeadlineView()
+                        .padding(.horizontal)
                 }
                 .padding(.vertical, 16)
             }
@@ -46,10 +46,10 @@ private struct HomeHeaderView: View {
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("App name here")
+                Text("APP NAME HERE")
                     .font(.title3.weight(.black))
                     .foregroundStyle(.white)
-                Text("")
+                Text("possible subtext")
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(.white.opacity(0.9))
             }
