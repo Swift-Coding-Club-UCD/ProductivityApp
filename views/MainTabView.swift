@@ -2,36 +2,44 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var authManager: AuthManager
+    @State private var selectedTab: Tab = .dashboard
+
+    enum Tab: Hashable {
+        case dashboard
+        case profile
+        case share
+        case settings
+    }
 
     var body: some View {
-        TabView {
-            // Dashboard placeholder
+        TabView(selection: $selectedTab) {
             NavigationStack {
-                Text("Dashboard (Coming Soon)")
+                DashboardScreen()
                     .navigationTitle("Dashboard")
             }
-            .tabItem {
-                Label("Dashboard", systemImage: "house")
-            }
+            .tabItem { Label("Dashboard", systemImage: "house") }
+            .tag(Tab.dashboard)
 
-            // Profile tab with ProfileView
             NavigationStack {
                 ProfileView()
                     .navigationTitle("Profile")
-                    .environmentObject(authManager)
             }
-            .tabItem {
-                Label("Profile", systemImage: "person.crop.circle")
-            }
+            .tabItem { Label("Profile", systemImage: "person.crop.circle") }
+            .tag(Tab.profile)
 
-            // Share tab (placeholder)
             NavigationStack {
-                Text("Share (Coming Soon)")
+                ShareView()
                     .navigationTitle("Share")
             }
-            .tabItem {
-                Label("Share", systemImage: "square.and.arrow.up")
+            .tabItem { Label("Share", systemImage: "square.and.arrow.up") }
+            .tag(Tab.share)
+
+            NavigationStack {
+                SettingsView()
+                    .navigationTitle("Settings")
             }
+            .tabItem { Label("Settings", systemImage: "gearshape") }
+            .tag(Tab.settings)
         }
     }
 }

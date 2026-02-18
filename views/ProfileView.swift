@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileView: View {
-    @EnvironmentObject var authManager: AuthenticationManager
+    @EnvironmentObject var authManager: AuthManager
     @State private var isPresentingPhotoPicker = false
     @State private var selectedUIImage: UIImage?
     @State private var isUpdatingPhoto = false
@@ -165,7 +165,7 @@ struct ProfileView: View {
                             DetailRow(
                                 icon: "shield.fill",
                                 title: "Auth Provider",
-                                value: providerName(for: authManager.currentUser?.authProvider ?? .email)
+                                value: providerName(for: authManager.currentUser?.authProvider ?? AppAuthProvider.email)
                             )
                         }
                     }
@@ -205,7 +205,7 @@ struct ProfileView: View {
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.large)
             .onAppear { selectedUIImage = nil }
-            .onChange(of: authManager.currentUser?.photoURL) {
+            .onChange(of: authManager.currentUser?.photoURL) { _ in
                 selectedUIImage = nil
             }
             .toolbar {
@@ -228,7 +228,7 @@ struct ProfileView: View {
     }
 
     @ViewBuilder
-    private func providerIcon(for provider: AuthProvider) -> some View {
+    private func providerIcon(for provider: AppAuthProvider) -> some View {
         switch provider {
         case .apple:
             Image(systemName: "apple.logo")
@@ -239,7 +239,7 @@ struct ProfileView: View {
         }
     }
 
-    private func providerName(for provider: AuthProvider) -> String {
+    private func providerName(for provider: AppAuthProvider) -> String {
         switch provider {
         case .apple:
             return "Apple"
@@ -278,9 +278,6 @@ struct DetailRow: View {
 
 #Preview {
     ProfileView()
-        .environmentObject({
-            let manager = AuthenticationManager()
-            return manager
-        }())
+        .environmentObject(AuthManager())
 }
 

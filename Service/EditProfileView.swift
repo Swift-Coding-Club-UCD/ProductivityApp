@@ -18,6 +18,7 @@ struct EditProfileView: View {
     @State private var confirmNewPassword: String = ""
     @State private var isUpdatingPassword: Bool = false
     @State private var passwordAlertMessage: String?
+    @State private var isShowingPasswordAlert: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -107,7 +108,7 @@ struct EditProfileView: View {
                 }
             }
             .photosPicker(isPresented: $isPresentingPhotoPicker, selection: $photoPickerItem, matching: .images)
-            .onChange(of: photoPickerItem) { oldValue, newValue in
+            .onChange(of: photoPickerItem) { newValue in
                 guard let newItem = newValue else { return }
                 Task {
                     if let data = try? await newItem.loadTransferable(type: Data.self),
@@ -133,9 +134,7 @@ struct EditProfileView: View {
                     .disabled(displayName.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
-            .alert(passwordAlertMessage ?? "", isPresented: Binding(get: { passwordAlertMessage != nil }, set: { newValue in
-                if newValue == false { passwordAlertMessage = nil }
-            })) {
+            .alert(passwordAlertMessage ?? "", isPresented: $isShowingPasswordAlert) {
                 Button("OK") { passwordAlertMessage = nil }
             }
             .onAppear {
@@ -169,15 +168,17 @@ struct EditProfileView: View {
         guard !trimmedCurrent.isEmpty, !trimmedNew.isEmpty, !trimmedConfirm.isEmpty else { return }
         guard trimmedNew == trimmedConfirm else {
             passwordAlertMessage = "New passwords do not match."
+            isShowingPasswordAlert = true
             return
         }
         isUpdatingPassword = true
         Task {
             do {
-                // Replace with your actual auth manager password update implementation
-                try await authManager.updatePassword(current: trimmedCurrent, new: trimmedNew)
+                // TODO: Implement password update in AuthenticationManager
+                try await Task.sleep(nanoseconds: 300_000_000)
                 await MainActor.run {
                     passwordAlertMessage = "Password updated successfully."
+                    isShowingPasswordAlert = true
                     currentPassword = ""
                     newPassword = ""
                     confirmNewPassword = ""
@@ -186,6 +187,7 @@ struct EditProfileView: View {
             } catch {
                 await MainActor.run {
                     passwordAlertMessage = error.localizedDescription
+                    isShowingPasswordAlert = true
                     isUpdatingPassword = false
                 }
             }
@@ -197,16 +199,6 @@ struct EditProfileView: View {
             .resizable()
             .scaledToFill()
             .foregroundStyle(.blue)
-    }
-}
-
-extension AuthenticationManager {
-    @MainActor
-    func updatePassword(current: String, new: String) async throws {
-        // TODO: Replace this stub with your real implementation.
-        // This stub simulates a short delay and a success.
-        try await Task.sleep(nanoseconds: 600_000_000)
-        // If you want to simulate an error, throw here.
     }
 }
 

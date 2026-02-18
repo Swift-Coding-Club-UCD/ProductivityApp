@@ -10,15 +10,15 @@ import GoogleSignIn
 
 @main
 struct ProductivityAppApp: App {
-    @StateObject private var authManager = AuthenticationManager()
+    @StateObject private var authManager = AuthManager()
+    @StateObject private var shareManager = ShareManager()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
                 .environmentObject(authManager)
-                .onOpenURL { url in
-                    GIDSignIn.sharedInstance.handle(url)
-                }
+                .environmentObject(shareManager)
         }
     }
 }
+

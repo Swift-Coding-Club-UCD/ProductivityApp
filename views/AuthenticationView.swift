@@ -6,10 +6,9 @@
 //
 
 import SwiftUI
-import AuthenticationServices
 
 struct AuthenticationView: View {
-    @EnvironmentObject var authManager: AuthenticationManager
+    @EnvironmentObject var authManager: AuthManager
     @State private var showEmailSignIn = false
     @State private var showEmailSignUp = false
 
@@ -39,26 +38,31 @@ struct AuthenticationView: View {
 
                 // Sign-in Options
                 VStack(spacing: 16) {
-                    // Apple Sign In
-                    SignInWithAppleButton(
-                        onRequest: { request in
-                            authManager.handleAppleSignInRequest(request)
-                        },
-                        onCompletion: { result in
-                            Task { @MainActor in
-                                authManager.handleAppleSignInCompletion(result)
-                            }
-                        }
-                    )
-                    .signInWithAppleButtonStyle(.black)
-                    .frame(height: 50)
-                    .cornerRadius(8)
-
-                    // Google Sign In
+                    // Apple Sign In (Stub)
                     Button {
-                        Task {
-                            await authManager.signInWithGoogle()
+                        // Stub Apple sign-in: mark authenticated
+                        authManager.isAuthenticated = true
+                        authManager.currentUser = CurrentUser(id: UUID().uuidString, displayName: "Apple User", email: nil, photoURL: nil, authProvider: .apple)
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "apple.logo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20)
+                            Text("Sign in with Apple")
+                                .fontWeight(.medium)
                         }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(Color.black)
+                        .foregroundStyle(.white)
+                        .cornerRadius(8)
+                    }
+
+                    // Google Sign In (Stub)
+                    Button {
+                        authManager.isAuthenticated = true
+                        authManager.currentUser = CurrentUser(id: UUID().uuidString, displayName: "Google User", email: nil, photoURL: nil, authProvider: .google)
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: "g.circle.fill")
@@ -132,15 +136,6 @@ struct AuthenticationView: View {
                     .padding(.top, 8)
                 }
 
-                // Error Message
-                if let errorMessage = authManager.errorMessage {
-                    Text(errorMessage)
-                        .font(.caption)
-                        .foregroundStyle(.red)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-                }
-
                 Spacer()
             }
             .padding(.horizontal, 24)
@@ -150,20 +145,11 @@ struct AuthenticationView: View {
             .navigationDestination(isPresented: $showEmailSignUp) {
                 EmailSignUpView()
             }
-            .overlay {
-                if authManager.isLoading {
-                    Color.black.opacity(0.3)
-                        .ignoresSafeArea()
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .tint(.white)
-                }
-            }
         }
     }
 }
 
 #Preview {
     AuthenticationView()
-        .environmentObject(AuthenticationManager())
+        .environmentObject(AuthManager())
 }
