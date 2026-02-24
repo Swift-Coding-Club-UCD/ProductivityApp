@@ -21,7 +21,6 @@
 		84FEEA122F3AE63100DBB49F /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA112F3AE63100DBB49F /* DashboardView.swift */; };
 		84FEEA142F3AE63300DBB49F /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA132F3AE63300DBB49F /* ShareView.swift */; };
 		84FEEA262F460D3900DBB49F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA252F460D3900DBB49F /* SettingsView.swift */; };
-		84FEEA322F460E8D00DBB49F /* DashboardView 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA312F460E8D00DBB49F /* DashboardView 2.swift */; };
 		84FEEA3C2F46110900DBB49F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA3B2F46110900DBB49F /* RootView.swift */; };
 		84FEEA3E2F46114200DBB49F /* EmailSignInView 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA3D2F46114200DBB49F /* EmailSignInView 2.swift */; };
 		84FEEA402F46114500DBB49F /* EmailSignUpView 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEEA3F2F46114500DBB49F /* EmailSignUpView 2.swift */; };
@@ -42,7 +41,6 @@
 		84FEEA112F3AE63100DBB49F /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		84FEEA132F3AE63300DBB49F /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		84FEEA252F460D3900DBB49F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		84FEEA312F460E8D00DBB49F /* DashboardView 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DashboardView 2.swift"; sourceTree = "<group>"; };
 		84FEEA3B2F46110900DBB49F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		84FEEA3D2F46114200DBB49F /* EmailSignInView 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailSignInView 2.swift"; sourceTree = "<group>"; };
 		84FEEA3F2F46114500DBB49F /* EmailSignUpView 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailSignUpView 2.swift"; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				84FEEA112F3AE63100DBB49F /* DashboardView.swift */,
 				84FEEA132F3AE63300DBB49F /* ShareView.swift */,
 				84FEEA252F460D3900DBB49F /* SettingsView.swift */,
-				84FEEA312F460E8D00DBB49F /* DashboardView 2.swift */,
 				84FEEA3B2F46110900DBB49F /* RootView.swift */,
 				84FEEA3D2F46114200DBB49F /* EmailSignInView 2.swift */,
 				84FEEA3F2F46114500DBB49F /* EmailSignUpView 2.swift */,
@@ -223,7 +220,6 @@
 				84FEEA122F3AE63100DBB49F /* DashboardView.swift in Sources */,
 				84FEE9EC2F3AA46C00DBB49F /* User.swift in Sources */,
 				84FEE9EB2F3AA45600DBB49F /* AuthenticationManager.swift in Sources */,
-				84FEEA322F460E8D00DBB49F /* DashboardView 2.swift in Sources */,
 				84FEE9EE2F3AA47D00DBB49F /* EmailSignInView.swift in Sources */,
 				84FEE9F02F3AA48600DBB49F /* ProfileView.swift in Sources */,
 				84FEEA4A2F46134400DBB49F /* ShareManager.swift in Sources */,

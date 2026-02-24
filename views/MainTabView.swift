@@ -14,7 +14,7 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                DashboardScreen()
+                HomeView()
                     .navigationTitle("Dashboard")
             }
             .tabItem { Label("Dashboard", systemImage: "house") }
