@@ -9,6 +9,11 @@ import SwiftUI
 
 struct ViewB: View {
     var body: some View {
+        ZStack {
+            // Your task list or UI goes here
+            Text("Friend info here")
+        }
+        .padding()
         
     }
 }
@@ -16,3 +21,5 @@ struct ViewB: View {
 #Preview {
     ViewB()
 }
+
+
