@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ViewA: View {
     var body: some View {
-        
+        HomeView()
+            
     }
 }
 
