@@ -1,27 +1,23 @@
-//
-//  ContentView.swift
-//  ProductivityApp
-//
-//  Created by Ava Kaplin on 1/21/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
         TabView {
-            ViewA()
-                .tabItem() {
+            // Your Task Branch content likely belongs here
+            HomeView()
+                .tabItem {
                     Image(systemName: "house")
                     Text("Home")
                 }
+            
             ViewB()
-                .tabItem() {
+                .tabItem {
                     Image(systemName: "person.2.fill")
                     Text("Friends")
                 }
+            
             ViewC()
-                .tabItem() {
+                .tabItem {
                     Image(systemName: "slider.horizontal.3")
                     Text("Settings")
                 }
@@ -29,6 +25,7 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+// This represents the code from your Task Branch
+
+
+#Preview {ContentView()}
