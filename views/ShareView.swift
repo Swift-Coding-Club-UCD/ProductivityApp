@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ShareView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var authManager: AuthenticationManager
     @EnvironmentObject var shareManager: ShareManager
 
     @State private var friendEmail: String = ""
@@ -166,7 +166,6 @@ struct ShareView: View {
 #Preview {
     NavigationStack {
         ShareView()
-            .environmentObject(AuthManager(isAuthenticated: true, currentUser: CurrentUser(id: "1", displayName: "Me", email: "me@example.com", photoURL: nil, authProvider: .email)))
-            .environmentObject(ShareManager())
+            .environmentObject(AuthenticationManager())
     }
 }

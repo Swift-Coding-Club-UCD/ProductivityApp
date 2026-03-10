@@ -10,12 +10,12 @@ import GoogleSignIn
 
 @main
 struct ProductivityAppApp: App {
-    @StateObject private var authManager = AuthManager()
+    @StateObject private var authManager = AuthenticationManager()
     @StateObject private var shareManager = ShareManager()
 
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            RootView()
                 .environmentObject(authManager)
                 .environmentObject(shareManager)
         }

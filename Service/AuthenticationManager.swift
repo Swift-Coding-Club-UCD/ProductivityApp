@@ -19,6 +19,10 @@ class AuthenticationManager: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
+    /// If true, the app will always require a fresh login on launch and will not auto-restore a previous session.
+    /// Set to false to restore the previous signed-in user from storage on launch.
+    var alwaysRequireLogin: Bool = true
+
     // For Apple Sign In
     private var currentNonce: String?
 
@@ -29,7 +33,12 @@ class AuthenticationManager: ObservableObject {
     private let appleEmailsKey = "appleEmails"
 
     init() {
-        loadStoredUser()
+        if alwaysRequireLogin {
+            // Ensure no user is restored on launch
+            signOut()
+        } else {
+            loadStoredUser()
+        }
     }
 
     // MARK: - Persistence

@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var authManager: AuthenticationManager
     @State private var isPresentingPhotoPicker = false
     @State private var selectedUIImage: UIImage?
     @State private var isUpdatingPhoto = false
@@ -165,7 +165,7 @@ struct ProfileView: View {
                             DetailRow(
                                 icon: "shield.fill",
                                 title: "Auth Provider",
-                                value: providerName(for: authManager.currentUser?.authProvider ?? AppAuthProvider.email)
+                                value: providerName(for: authManager.currentUser?.authProvider ?? .email)
                             )
                         }
                     }
@@ -212,7 +212,6 @@ struct ProfileView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink("Edit") {
                         EditProfileView()
-                            .environmentObject(authManager)
                     }
                 }
             }
@@ -228,7 +227,7 @@ struct ProfileView: View {
     }
 
     @ViewBuilder
-    private func providerIcon(for provider: AppAuthProvider) -> some View {
+    private func providerIcon(for provider: AuthProvider) -> some View {
         switch provider {
         case .apple:
             Image(systemName: "apple.logo")
@@ -239,7 +238,7 @@ struct ProfileView: View {
         }
     }
 
-    private func providerName(for provider: AppAuthProvider) -> String {
+    private func providerName(for provider: AuthProvider) -> String {
         switch provider {
         case .apple:
             return "Apple"
@@ -278,6 +277,6 @@ struct DetailRow: View {
 
 #Preview {
     ProfileView()
-        .environmentObject(AuthManager())
+        .environmentObject(AuthenticationManager())
 }
 
