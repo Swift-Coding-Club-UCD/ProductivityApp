@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct StreakView: View {
+    @ObservedObject var store: TaskStore
     private let streakText = Color(red: 0.38, green: 0.20, blue: 0.08)
 
     var body: some View {
@@ -18,7 +19,7 @@ struct StreakView: View {
                         .foregroundColor(streakText)
                     
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text("7")
+                        Text("\(store.currentStreak)")
                             .font(.system(size: 40, weight: .semibold))
                         Text("days")
                             .font(.headline)
@@ -43,7 +44,7 @@ struct StreakView: View {
                     Text("Today's Progress")
                         .fontWeight(.medium)
                     Spacer()
-                    Text("1/3 tasks")
+                    Text("\(store.completedCount)/\(store.totalCount) tasks")
                         .fontWeight(.bold)
                 }
                 .foregroundColor(streakText)
@@ -55,12 +56,13 @@ struct StreakView: View {
                             .fill(streakText.opacity(0.2))
                         Capsule()
                             .fill(streakText)
-                            .frame(width: geo.size.width * 0.33) // 1 out of 3
+                            .frame(width: geo.size.width * progressFraction)
                     }
                 }
                 .frame(height: 8)
                 
-                Text("Complete 2 more tasks to maintain your streak")
+                //Text("Complete 2 more tasks to maintain your streak")
+                Text(statusMessage)
                     .font(.footnote)
                     .foregroundColor(streakText)
             }
@@ -70,7 +72,8 @@ struct StreakView: View {
             
             HStack {
                 Image(systemName: "chart.line.uptrend.xyaxis")
-                Text("Longest streak: **12 days**")
+                //Text("Longest streak: **12 days**")
+                Text("Longest streak: **\(store.longestStreak) days**")
             }
             .font(.footnote.weight(.semibold))
             .foregroundColor(streakText)
@@ -85,9 +88,25 @@ struct StreakView: View {
         )
         .cornerRadius(24)
     }
+    private var progressFraction: CGFloat {
+        guard store.totalCount > 0 else { return 0 }
+        return CGFloat(store.completedCount) / CGFloat(store.totalCount)
+    }
+
+    private var statusMessage: String {
+        if store.streakCountedToday {
+            return "You completed a task today. Your streak counts for today."
+        }
+        if store.currentStreak > 0 {
+            return "Complete one task today to keep your \(store.currentStreak)-day streak alive."
+        }
+        return "Complete a task today to start a new daily streak."
+    }
 }
 
 
+
 #Preview {
-    StreakView()
+    //StreakView()
+    StreakView(store: TaskStore())
 }

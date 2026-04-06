@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36A3171C2F5FB97C00070F06 /* LRStreakKit in Frameworks */ = {isa = PBXBuildFile; productRef = 36A3171B2F5FB97C00070F06 /* LRStreakKit */; };
 		84F314692F286D2000D83064 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 84F314682F286D2000D83064 /* GoogleSignIn */; };
 		84F3146B2F286D2000D83064 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84F3146A2F286D2000D83064 /* GoogleSignInSwift */; };
 		84FEE9EB2F3AA45600DBB49F /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F314602F286C6800D83064 /* AuthenticationManager.swift */; };
@@ -75,6 +76,7 @@
 			files = (
 				84F314692F286D2000D83064 /* GoogleSignIn in Frameworks */,
 				84F3146B2F286D2000D83064 /* GoogleSignInSwift in Frameworks */,
+				36A3171C2F5FB97C00070F06 /* LRStreakKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +161,7 @@
 			packageProductDependencies = (
 				84F314682F286D2000D83064 /* GoogleSignIn */,
 				84F3146A2F286D2000D83064 /* GoogleSignInSwift */,
+				36A3171B2F5FB97C00070F06 /* LRStreakKit */,
 			);
 			productName = ProductivityApp;
 			productReference = 364323802F21D77600D6F8A5 /* ProductivityApp.app */;
@@ -190,6 +193,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				84F314672F286D2000D83064 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				36A3171A2F5FB97C00070F06 /* XCRemoteSwiftPackageReference "LRStreakKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 364323812F21D77600D6F8A5 /* Products */;
@@ -445,6 +449,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		36A3171A2F5FB97C00070F06 /* XCRemoteSwiftPackageReference "LRStreakKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lukerobertsapps/LRStreakKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		84F314672F286D2000D83064 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -456,6 +468,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		36A3171B2F5FB97C00070F06 /* LRStreakKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36A3171A2F5FB97C00070F06 /* XCRemoteSwiftPackageReference "LRStreakKit" */;
+			productName = LRStreakKit;
+		};
 		84F314682F286D2000D83064 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 84F314672F286D2000D83064 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;

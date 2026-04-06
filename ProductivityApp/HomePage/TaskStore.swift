@@ -13,6 +13,9 @@ final class TaskStore: ObservableObject {
     @Published private(set) var tasks: [TaskItem] = []
 
     @AppStorage("tasks_last_active_day") private var lastActiveDayISO: String = ""
+    @AppStorage("tasks_last_completion_day") private var lastCompletionDayISO: String = ""
+    @AppStorage("tasks_current_streak") private var storedCurrentStreak: Int = 0
+    @AppStorage("tasks_longest_streak") private var storedLongestStreak: Int = 0
 
     private let fileURL: URL = {
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -28,6 +31,17 @@ final class TaskStore: ObservableObject {
     // MARK: - Derived lists
     var completedCount: Int { tasks.filter { $0.isCompleted }.count }
     var totalCount: Int { tasks.count }
+    var completedToday: Bool { completedCount > 0 }
+    var streakCountedToday: Bool { streakStatus == .completedToday }
+    var currentStreak: Int {
+        switch streakStatus {
+        case .completedToday, .completedYesterday:
+            return storedCurrentStreak
+        case .inactive:
+            return 0
+        }
+    }
+    var longestStreak: Int { storedLongestStreak }
 
     var activeTasks: [TaskItem] {
         tasks.filter { !$0.isCompleted }
@@ -48,6 +62,7 @@ final class TaskStore: ObservableObject {
     func toggle(_ task: TaskItem) {
         guard let idx = tasks.firstIndex(where: { $0.id == task.id }) else { return }
         tasks[idx].isCompleted.toggle()
+        recordTodayCompletionIfNeeded()
         save()
     }
 
@@ -113,4 +128,55 @@ final class TaskStore: ObservableObject {
             // ignore for now
         }
     }
+    
+    private func recordTodayCompletionIfNeeded() {
+        guard completedToday else { return }
+
+        let todayISO = Self.dayStampISO(Date())
+        guard lastCompletionDayISO != todayISO else { return }
+
+        if let lastDate = Self.date(fromISO: lastCompletionDayISO),
+           Calendar.current.isDate(lastDate, inSameDayAs: Self.yesterday()) {
+            storedCurrentStreak += 1
+        } else {
+            storedCurrentStreak = 1
+        }
+
+        storedLongestStreak = max(storedLongestStreak, storedCurrentStreak)
+        lastCompletionDayISO = todayISO
+        objectWillChange.send()
+    }
+
+    private var streakStatus: StreakStatus {
+        guard let lastDate = Self.date(fromISO: lastCompletionDayISO) else {
+            return .inactive
+        }
+        let calendar = Calendar.current
+        if calendar.isDateInToday(lastDate) {
+            return .completedToday
+        }
+        if calendar.isDateInYesterday(lastDate) {
+            return .completedYesterday
+        }
+        return .inactive
+    }
+
+    private enum StreakStatus {
+        case completedToday
+        case completedYesterday
+        case inactive
+    }
+
+    private static func yesterday() -> Date {
+        Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+    }
+
+    private static func date(fromISO value: String) -> Date? {
+        guard !value.isEmpty else { return nil }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.date(from: value)
+    }
 }
+
