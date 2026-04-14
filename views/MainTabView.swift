@@ -28,7 +28,7 @@ struct MainTabView: View {
             .tag(Tab.profile)
 
             NavigationStack {
-                ShareView()
+                ShareView_new()
                     .navigationTitle("Share")
             }
             .tabItem { Label("Share", systemImage: "square.and.arrow.up") }
