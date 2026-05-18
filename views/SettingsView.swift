@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var authManager: AuthenticationManager
+    @EnvironmentObject var taskStore: TaskStore
     @AppStorage("settings_notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("settings_appearance") private var appearance: Appearance = .system
     @State private var isConfirmingResetStreak: Bool = false
@@ -38,7 +39,7 @@ struct SettingsView: View {
                     }
                 }
 
-                Section(header: Text("Check-in"), footer: Text("Current streak: \(authManager.currentStreak) days")) {
+                Section(header: Text("Check-in"), footer: Text("Current streak: \(taskStore.currentStreak) days")) {
                     Button {
                         isConfirmingResetStreak = true
                     } label: {
@@ -88,12 +89,7 @@ struct SettingsView: View {
     }
 
     private func resetStreak() {
-        // Clear AuthManager's streak-related values
-        authManager.currentStreak = 0
-        authManager.lastCheckInDate = nil
-        // Also clear persisted values in UserDefaults to keep consistency
-        UserDefaults.standard.removeObject(forKey: "checkin_currentStreak")
-        UserDefaults.standard.removeObject(forKey: "checkin_lastCheckInDate")
+        taskStore.resetStreak()
     }
 }
 
@@ -124,6 +120,7 @@ enum Appearance: String, CaseIterable, Codable {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(AuthManager())
+            .environmentObject(AuthenticationManager())
+            .environmentObject(TaskStore())
     }
 }

@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var store = TaskStore()
+    @EnvironmentObject var store: TaskStore
     
     var body: some View {
         ZStack {
@@ -40,18 +40,15 @@ private struct HomeHeaderView: View {
                 Circle()
                     .fill(Color.white.opacity(0.24))
                     .frame(width: 44, height: 44)
-                Image(systemName: "teddybear.fill")
+                Image(systemName: "flame")
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(.white)
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("APP NAME HERE")
+                Text("Procrastinot!")
                     .font(.title3.weight(.black))
                     .foregroundStyle(.white)
-                Text("possible subtext")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.9))
             }
 
             Spacer()
@@ -80,5 +77,6 @@ private struct HomeHeaderView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(TaskStore())
 }
 

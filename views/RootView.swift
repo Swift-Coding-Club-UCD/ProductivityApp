@@ -17,4 +17,6 @@ struct RootView: View {
 #Preview {
     RootView()
         .environmentObject(AuthenticationManager())
+        .environmentObject(ShareManager())
+                .environmentObject(TaskStore())
 }
