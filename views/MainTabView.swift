@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var authManager: AuthenticationManager
     @State private var selectedTab: Tab = .dashboard
 
     enum Tab: Hashable {
@@ -28,7 +28,7 @@ struct MainTabView: View {
             .tag(Tab.profile)
 
             NavigationStack {
-                ShareView_new()
+                ShareView()
                     .navigationTitle("Share")
             }
             .tabItem { Label("Share", systemImage: "square.and.arrow.up") }

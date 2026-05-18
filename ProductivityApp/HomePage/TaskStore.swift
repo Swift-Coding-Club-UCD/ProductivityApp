@@ -71,6 +71,12 @@ final class TaskStore: ObservableObject {
         save()
     }
 
+    func resetStreak() {
+            storedCurrentStreak = 0
+            storedLongestStreak = 0
+            lastCompletionDayISO = ""
+            objectWillChange.send()
+        }
     // MARK: - Daily reset
     private func enforceDailyResetIfNeeded() {
         let todayISO = Self.dayStampISO(Date())
