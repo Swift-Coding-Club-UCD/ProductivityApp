@@ -14,7 +14,7 @@ struct MainTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                DashboardScreen()
+                HomeView()
                     .navigationTitle("Dashboard")
             }
             .tabItem { Label("Dashboard", systemImage: "house") }
@@ -28,7 +28,7 @@ struct MainTabView: View {
             .tag(Tab.profile)
 
             NavigationStack {
-                ShareView()
+                ShareView_new()
                     .navigationTitle("Share")
             }
             .tabItem { Label("Share", systemImage: "square.and.arrow.up") }

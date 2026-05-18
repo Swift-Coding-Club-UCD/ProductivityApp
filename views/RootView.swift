@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var authManager: AuthenticationManager
 
     var body: some View {
         Group {
@@ -16,5 +16,5 @@ struct RootView: View {
 
 #Preview {
     RootView()
-        .environmentObject(AuthManager())
+        .environmentObject(AuthenticationManager())
 }

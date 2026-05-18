@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct AuthenticationView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var authManager: AuthenticationManager
     @State private var showEmailSignIn = false
     @State private var showEmailSignUp = false
 
@@ -38,31 +39,20 @@ struct AuthenticationView: View {
 
                 // Sign-in Options
                 VStack(spacing: 16) {
-                    // Apple Sign In (Stub)
-                    Button {
-                        // Stub Apple sign-in: mark authenticated
-                        authManager.isAuthenticated = true
-                        authManager.currentUser = CurrentUser(id: UUID().uuidString, displayName: "Apple User", email: nil, photoURL: nil, authProvider: .apple)
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "apple.logo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                            Text("Sign in with Apple")
-                                .fontWeight(.medium)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(Color.black)
-                        .foregroundStyle(.white)
-                        .cornerRadius(8)
+                    // Apple Sign In (Using SignInWithAppleButton)
+                    SignInWithAppleButton(.signIn) { request in
+                        authManager.handleAppleSignInRequest(request)
+                    } onCompletion: { result in
+                        authManager.handleAppleSignInCompletion(result)
                     }
+                    .signInWithAppleButtonStyle(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .cornerRadius(8)
 
                     // Google Sign In (Stub)
                     Button {
-                        authManager.isAuthenticated = true
-                        authManager.currentUser = CurrentUser(id: UUID().uuidString, displayName: "Google User", email: nil, photoURL: nil, authProvider: .google)
+                        Task { await authManager.signInWithGoogle() }
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: "g.circle.fill")
@@ -151,5 +141,5 @@ struct AuthenticationView: View {
 
 #Preview {
     AuthenticationView()
-        .environmentObject(AuthManager())
+        .environmentObject(AuthenticationManager())
 }

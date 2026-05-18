@@ -1,5 +1,5 @@
 {
-  "originHash" : "68aa00e3cba36db2e0a76f54dbc84d1f079d8aa9a19bfa9fce02d6286bd620b7",
+  "originHash" : "7288fb69bd6a9f80d0cbed7076bcc4a77e077186bc8d808f0ad394ebdbadad8d",
   "pins" : [
     {
       "identity" : "app-check",
@@ -53,6 +53,15 @@
       "state" : {
         "revision" : "56e0ccf09a6dd29dc7e68bdf729598240ca8aa16",
         "version" : "5.0.0"
+      }
+    },
+    {
+      "identity" : "lrstreakkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lukerobertsapps/LRStreakKit",
+      "state" : {
+        "revision" : "e7a4e176932f1de1d0932a1ed2489862543cb401",
+        "version" : "1.1.0"
       }
     },
     {
