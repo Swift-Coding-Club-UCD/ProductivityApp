@@ -21,7 +21,7 @@ class AuthenticationManager: ObservableObject {
 
     /// If true, the app will always require a fresh login on launch and will not auto-restore a previous session.
     /// Set to false to restore the previous signed-in user from storage on launch.
-    var alwaysRequireLogin: Bool = true
+    var alwaysRequireLogin: Bool = false
 
     // For Apple Sign In
     private var currentNonce: String?

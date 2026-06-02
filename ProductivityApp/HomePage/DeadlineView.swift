@@ -17,11 +17,7 @@ struct DeadlineView: View {
     @State private var isExpanded = false
     @State private var newTitle = ""
     @State private var newDue = ""
-    @State private var deadlines: [DeadlineItem] = [
-        DeadlineItem(title: "Math Homework", dueDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()), color: .orange),
-        DeadlineItem(title: "History Essay", dueDate: Self.nextWeekday(6), color: .pink), // Friday
-        DeadlineItem(title: "Chemistry Quiz", dueDate: Self.nextWeekday(2), color: .mint) // Monday
-    ]
+    @State private var deadlines: [DeadlineItem] = []
 
     private var sortedDeadlines: [DeadlineItem] {
         deadlines.sorted { lhs, rhs in
@@ -65,38 +61,52 @@ struct DeadlineView: View {
                 .buttonStyle(.plain)
             }
 
-            ForEach(visibleDeadlines) { item in
-                HStack(spacing: 12) {
-                    Circle()
-                        .fill(item.color)
-                        .frame(width: 10, height: 10)
+            if visibleDeadlines.isEmpty {
+                Text("No deadlines yet")
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(Color(.secondaryLabel))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 11)
+                    .padding(.horizontal, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(Color(red: 0.97, green: 0.95, blue: 0.90))
+                    )
+            } else {
+                ForEach(visibleDeadlines) { item in
+                    HStack(spacing: 12) {
+                        Circle()
+                            .fill(item.color)
+                            .frame(width: 10, height: 10)
 
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(item.title)
-                            .font(.system(size: 16, weight: .semibold))
-                        Text(Self.dueText(for: item.dueDate))
-                            .font(.footnote)
-                            .foregroundStyle(Color(.secondaryLabel))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(item.title)
+                                .font(.system(size: 16, weight: .semibold))
+                            Text(Self.dueText(for: item.dueDate))
+                                .font(.footnote)
+                                .foregroundStyle(Color(.secondaryLabel))
+                        }
+
+                        Spacer()
+
+                        Button {
+                            deadlines.removeAll { $0.id == item.id }
+                        } label: {
+                            Image(systemName: "trash")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundStyle(Color(.secondaryLabel))
+                        }
+                        .buttonStyle(.plain)
                     }
-
-                    Spacer()
-
-                    Button {
-                        deadlines.removeAll { $0.id == item.id }
-                    } label: {
-                        Image(systemName: "trash")
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundStyle(Color(.secondaryLabel))
-                    }
-                    .buttonStyle(.plain)
+                    .padding(.vertical, 11)
+                    .padding(.horizontal, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(Color(red: 0.97, green: 0.95, blue: 0.90))
+                    )
+                    .shadow(color: .clear, radius: 0)
                 }
-                .padding(.vertical, 11)
-                .padding(.horizontal, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(Color(red: 0.97, green: 0.95, blue: 0.90))
-                )
-                .shadow(color: .clear, radius: 0)
+
             }
 
             if isExpanded {
